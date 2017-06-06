@@ -2,15 +2,54 @@
   background-color: $nav-background;
 }
 
+#app > div > nav > div.top-bar-left > ul {
+  display: inline-block;
+}
+
 .top-bar {
   .menu-text {
     color: $nav-text-color;
   }
-}
-
-.menu > .menu-text {
-  a {
+  .menu > .menu-text > a {
     display: inline;
     padding: 0;
   }
+  .active-link {
+    font-weight: bold;
+  }
+  .top-bar-right, .top-bar-left {
+    display: inline-block;
+    width: auto;
+  }
 }
+
+.title-div{
+  display: inline-block;
+}
+
+
+.show {
+    display: block !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+@media screen and (max-width: 699px) {
+  #app > div > nav > div.top-bar-left > div > ul > li {
+    display: block;
+    margin-left: 1.8rem;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .show {
+    display: inline-block !important;
+  }
+}
+
+
+
+
+
