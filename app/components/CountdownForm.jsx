@@ -17,6 +17,8 @@ var CountdownForm = React.createClass({
     } else if (!seconds && minutes > 0){
       seconds = 0;
     }
+    minutes = Math.abs(minutes);
+    seconds = Math.abs(seconds);
 
     minutes *= 60;
 
