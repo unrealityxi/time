@@ -17,6 +17,9 @@
   .active-link {
     font-weight: bold;
   }
+  a {
+    color: $nav-link-color;
+  }
   .top-bar-right, .top-bar-left {
     display: inline-block;
     width: auto;

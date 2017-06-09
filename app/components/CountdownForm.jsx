@@ -1,21 +1,40 @@
 var React = require("react");
 
+
 var CountdownForm = React.createClass({
+
   onSubmit: function(e){
     e.preventDefault();
-    var strSeconds = this.refs.seconds.value;
-    if (!strSeconds) return;
-    if (strSeconds.match(/^[0-9]*$/)) {
-      this.refs.seconds.value = "";
-      this.props.onSetCountdown(parseInt(strSeconds, 10));
+    var minutes = parseInt(this.refs.minutes.value);
+    var seconds = parseInt(this.refs.seconds.value);
+
+
+
+    if (!minutes && !seconds){
+      return;
+    } else if (!minutes && seconds > 0){
+      minutes = 0;
+    } else if (!seconds && minutes > 0){
+      seconds = 0;
     }
+
+    minutes *= 60;
+
+    let total = minutes + seconds;
+    this.props.onSetCountdown(total);
   },
 
   render: function(){
-    return(
+    return (
       <div>
-        <form ref="form" onSubmit={this.onSubmit} className="countdown-form">
-          <input type="text" ref="seconds" placeholder="Enter time in seconds"/>
+        <form onSubmit={this.onSubmit} className="pomodoro-form">
+          <label className="small-6">
+            <input ref="minutes" type="number" placeholder="Minutes"/>
+          </label>
+          <label className="small-6">
+            <input ref="seconds"type="number" placeholder="Seconds"/>
+          </label>
+
           <button className="button expanded">Start</button>
         </form>
       </div>

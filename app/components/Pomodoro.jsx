@@ -3,16 +3,16 @@ var Clock = require("Clock");
 var Controls = require("Controls");
 var PomodoroForm = require("PomodoroForm");
 
-var startSound = new Audio("/media/gong.mp3");
-var breakSound = new Audio("/media/chime.mp3");
+var startSound = new Audio("/media/ding.mp3");
+var breakSound = startSound;
 
 
 var Pomodoro = React.createClass({
 
   getDefaultProps: function(){
     return {
-      breakColor: "	#87CEFA",
-      sessionColor: "	#7CFC00",
+      breakColor: "#87CEFA",
+      sessionColor: "#7CFC00",
     }
   },
 
@@ -142,7 +142,7 @@ var Pomodoro = React.createClass({
 
     return (
       <div>
-        <h1 className="page-title">Pomodoro Clock</h1>
+        <h1 className="page-title">Pomodoro</h1>
         <Clock totalSeconds = {count} fillColor={fillColor} percentsDone={percentsDone}/>
         {renderControlArea()}
       </div>

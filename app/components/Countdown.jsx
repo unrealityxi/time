@@ -2,12 +2,16 @@ var React = require("react");
 var Clock = require("Clock");
 var CountdownForm = require("CountdownForm");
 var Controls = require("Controls");
+var startSound = new Audio("/media/ding.mp3");
+var stopSound = startSound;
 
 var Countdown = React.createClass({
   getInitialState: function(){
     return {
       count: 0, 
-      countdownStatus: "stopped"
+      percentsDone: 0,
+      countdownStatus: "stopped",
+      fillColor: "#87CEFA"
     }
   },
   componentDidUpdate: function(prevProps, prevState){
@@ -17,7 +21,7 @@ var Countdown = React.createClass({
           this.startTimer();
           break;
         case "stopped":
-          this.setState({count: 0});
+          this.setState({count: 0, percentsDone: 0});
         case "paused":
           clearInterval(this.timer);
           this.timer = undefined;
@@ -32,23 +36,34 @@ var Countdown = React.createClass({
   },
   startTimer: function(){
     this.timer = setInterval(() => {
+      var {count, initialCount} = this.state
 
-      var newCount  = this.state.count - 1;
+      if (count === 0) {
+        this.setState({countdownStatus: "stopped"});
+        return;
+      }
+
+      
+      count -= 1;
+      var percentsDone = 100 - Math.floor((100 * count) / initialCount);
       this.setState({
-        count: newCount >= 0 ? newCount : 0
+        count,
+        percentsDone
       });
 
-      if (newCount === 0) {
-        this.setState({countdownStatus: "stopped"});
+      if (count == 0){
+        stopSound.play();
       }
 
     }, 1000);
   },
   handleSetCountdown: function(seconds){
     this.setState({
-      count: seconds, 
+      count: seconds,
+      initialCount: seconds, 
       countdownStatus: "started"
-    })
+    });
+    startSound.play();
   },
   handleStatusChange: function(newStatus) {
     this.setState({
@@ -56,7 +71,7 @@ var Countdown = React.createClass({
     })
   },
   render: function(){
-    var {count, countdownStatus} = this.state;
+    var {count, countdownStatus, fillColor, percentsDone} = this.state;
     var renderControlArea = () => {
       if (countdownStatus !== "stopped") {
         return <Controls countdownStatus={countdownStatus} onStatusChange={this.handleStatusChange}/>
@@ -66,8 +81,8 @@ var Countdown = React.createClass({
     };
     return (
       <div>
-        <h1 className="page-title">Countdown App</h1>
-        <Clock totalSeconds={count}/>
+        <h1 className="page-title">Countdown</h1>
+        <Clock totalSeconds={count} fillColor={fillColor} percentsDone={percentsDone}/>
         {renderControlArea()}
       </div>
     )
